@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: comments-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: comments
+  template:
+    metadata:
+      labels:
+        app: comments
+    spec:
+      containers:
+        - name: comments
+          imagePullPolicy: Never
+          image: xtophe02/comments
+          # ports:
+          #   - containerPort: 4005
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: comments-clusterip-srv
+spec:
+  # type: ClusterIP
+  # type: NodePort
+  ports:
+    - port: 4001
+      targetPort: 4001
+      protocol: TCP
+      name: comments
+      # nodePort: 31515
+  selector:
+    app: comments

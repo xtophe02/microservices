@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: query-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: query
+  template:
+    metadata:
+      labels:
+        app: query
+    spec:
+      containers:
+        - name: query
+          imagePullPolicy: Never
+          image: xtophe02/query
+          # ports:
+          #   - containerPort: 4005
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: query-clusterip-srv
+spec:
+  # type: ClusterIP
+  # type: NodePort
+  ports:
+    - port: 4002
+      targetPort: 4002
+      protocol: TCP
+      name: query
+      # nodePort: 31515
+  selector:
+    app: query

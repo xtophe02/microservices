@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: moderation-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: moderation
+  template:
+    metadata:
+      labels:
+        app: moderation
+    spec:
+      containers:
+        - name: moderation
+          imagePullPolicy: Never
+          image: xtophe02/moderation
+          # ports:
+          #   - containerPort: 4005
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: moderation-clusterip-srv
+spec:
+  # type: ClusterIP
+  # type: NodePort
+  ports:
+    - port: 4003
+      targetPort: 4003
+      protocol: TCP
+      name: moderation
+      # nodePort: 31515
+  selector:
+    app: moderation
