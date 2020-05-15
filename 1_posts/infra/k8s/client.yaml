@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: client
-          imagePullPolicy: Never
+          # imagePullPolicy: Never
           image: xtophe02/client
           # ports:
           #   - containerPort: 4005

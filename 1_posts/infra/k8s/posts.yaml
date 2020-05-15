@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: posts
-          imagePullPolicy: Never
+          # imagePullPolicy: Never
           image: xtophe02/posts
           # ports:
           #   - containerPort: 4000
@@ -25,7 +25,6 @@ metadata:
   name: posts-clusterip-srv
 spec:
   type: NodePort
-  # type: NodePort
   ports:
     - port: 4000
       targetPort: 4000

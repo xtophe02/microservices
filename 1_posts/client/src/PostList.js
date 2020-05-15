@@ -3,11 +3,11 @@ import axios from "axios";
 import CommentCreate from "./CommentCreate";
 import CommentsList from "./CommentsList";
 
-const PostList=()=> {
+const PostList = () => {
   // console.log('func POST')
   const [posts, setPosts] = React.useState({});
   const fethPosts = async () => {
-    const { data } = await axios.get("http://localhost:4002/posts");
+    const { data } = await axios.get("http://posts.com/posts");
     setPosts(data);
   };
 
@@ -26,13 +26,12 @@ const PostList=()=> {
           <div className="card-body">
             <h3>{post.title}</h3>
             <CommentsList comments={post.comments} />
-            <CommentCreate postId={post.id}/>
-            
+            <CommentCreate postId={post.id} />
           </div>
         </div>
       ))}
     </div>
   );
-}
+};
 
 export default PostList;

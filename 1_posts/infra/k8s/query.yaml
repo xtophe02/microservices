@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: query
-          imagePullPolicy: Never
+          # imagePullPolicy: Never
           image: xtophe02/query
           # ports:
           #   - containerPort: 4005

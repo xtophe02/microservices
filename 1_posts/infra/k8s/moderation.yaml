@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: moderation
-          imagePullPolicy: Never
+          # imagePullPolicy: Never
           image: xtophe02/moderation
           # ports:
           #   - containerPort: 4005

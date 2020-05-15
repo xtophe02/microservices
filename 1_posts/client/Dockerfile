@@ -1,4 +1,6 @@
 FROM node:12-alpine
+# Add the following line 
+ENV CI=true
 WORKDIR /app
 COPY package.json .
 RUN npm install
