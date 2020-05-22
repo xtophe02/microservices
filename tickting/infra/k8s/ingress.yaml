@@ -15,15 +15,7 @@ spec:
             backend:
               serviceName: auth-srv
               servicePort: 3000
-          # - path: /posts
-          #   backend:
-          #     serviceName: query-clusterip-srv
-          #     servicePort: 4002
-          # - path: /posts/?(.*)/comments
-          #   backend:
-          #     serviceName: comments-clusterip-srv
-          #     servicePort: 4001
-          # - path: /?(.*)
-          #   backend:
-          #     serviceName: client-clusterip-srv
-          #     servicePort: 3000
+          - path: /?(.*)
+            backend:
+              serviceName: client-srv
+              servicePort: 3000
