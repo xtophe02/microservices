@@ -1,18 +1,18 @@
 import React from "react";
-import { Container, Typography, Box } from "@material-ui/core";
-import Link from "../src/Link";
+import Link from "next/link";
 
 export default function Index() {
   return (
-    <Container maxWidth="sm">
-      <Box my={4}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Next.js example
-        </Typography>
-        <Link href="/auth/signup" color="secondary">
-          Go to the signup
+    <section className="section">
+      <div className="container">
+        <h1 className="title">Hello World</h1>
+        <p className="subtitle">
+          My first website with <strong>Bulma</strong>!
+        </p>
+        <Link href="/auth/signup">
+          <a>Sign Up</a>
         </Link>
-      </Box>
-    </Container>
+      </div>
+    </section>
   );
 }

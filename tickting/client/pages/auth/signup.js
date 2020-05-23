@@ -1,105 +1,78 @@
-import {
-  Container,
-  Typography,
-  TextField,
-  makeStyles,
-  Button,
-  InputAdornment,
-  IconButton,
-  FormControl,
-  InputLabel,
-  OutlinedInput,
-} from "@material-ui/core";
-import { Visibility, VisibilityOff } from "@material-ui/icons/";
-import clsx from "clsx";
-const useStyles = makeStyles((theme) => ({
-  root: {
-    "& > *": {
-      margin: theme.spacing(1),
-    },
-  },
-  margin: {
-    margin: theme.spacing(1),
-  },
-  withoutLabel: {
-    marginTop: theme.spacing(3),
-  },
-  textField: {
-    width: "25ch",
-  },
-}));
+import React from "react";
+import Router from "next/router";
+
+import useRequest from "../../hooks/use-request";
 
 export default () => {
-  const classes = useStyles();
   const [values, setValues] = React.useState({
-    password: "password",
-    email: "jdoe@gmail.com",
-    showPassword: false,
+    email: "",
+    password: "",
   });
-  const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value });
+  const { errors, doRequest } = useRequest({
+    url: "/api/users/signup",
+    method: "post",
+    body: values,
+    onSuccess: () => Router.push("/"),
+  });
+  const handleChange = (event) => {
+    setValues({ ...values, [event.target.name]: event.target.value });
   };
-  const handleClickShowPassword = () => {
-    setValues({ ...values, showPassword: !values.showPassword });
-  };
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(values);
+    await doRequest();
   };
   return (
-    <Container maxWidth="sm">
-      <form autoComplete="off" className={classes.root} onSubmit={handleSubmit}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Sign Up
-        </Typography>
+    <>
+      <section className="hero">
+        <div className="hero-body">
+          <div className="container">
+            <h1 className="title">Sign Up</h1>
+            <form onSubmit={handleSubmit}>
+              <div className="field">
+                <p className="control has-icons-left has-icons-right">
+                  <input
+                    className="input"
+                    // type="email"
+                    placeholder="Email"
+                    value={values.email}
+                    onChange={handleChange}
+                    name="email"
+                  />
+                  <span className="icon is-small is-left">
+                    <i className="fas fa-envelope"></i>
+                  </span>
+                  <span className="icon is-small is-right">
+                    <i className="fas fa-check"></i>
+                  </span>
+                </p>
+              </div>
+              <div className="field">
+                <p className="control has-icons-left">
+                  <input
+                    className="input"
+                    type="password"
+                    placeholder="Password"
+                    name="password"
+                    placeholder="Password"
+                    value={values.password}
+                    onChange={handleChange}
+                  />
+                  <span className="icon is-small is-left">
+                    <i className="fas fa-lock"></i>
+                  </span>
+                </p>
+              </div>
+              <div className="field">
+                <p className="control">
+                  <button className="button is-success">Login</button>
+                </p>
+              </div>
 
-        <TextField
-          id="email"
-          type="email"
-          label="Email Address"
-          variant="outlined"
-          value={values.email}
-          onChange={handleChange("email")}
-          fullWidth
-        />
-        {/* <TextField
-          id="password"
-          type={values.showPassword ? "text" : "password"}
-          label="Password"
-          onChange={handleChange("password")}
-          
-        /> */}
-        <FormControl variant="outlined" fullWidth>
-          <InputLabel htmlFor="outlined-adornment-password">
-            Password
-          </InputLabel>
-          <OutlinedInput
-            id="outlined-adornment-password"
-            type={values.showPassword ? "text" : "password"}
-            value={values.password}
-            onChange={handleChange("password")}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            }
-            labelWidth={70}
-          />
-        </FormControl>
-        <Button variant="outlined" color="primary" type="submit" fullWidth>
-          Submit
-        </Button>
-      </form>
-    </Container>
+              <div className="field">{errors}</div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </>
   );
 };
