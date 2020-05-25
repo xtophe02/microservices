@@ -6,12 +6,13 @@ import SignForm from "../../components/SignForm";
 
 export default () => {
   const router = useRouter();
+  console.log(router);
   const [values, setValues] = React.useState({
     email: "",
     password: "",
   });
   const { errors, doRequest } = useRequest({
-    url: "/api/users/signup",
+    url: "/api/users/signin",
     method: "post",
     body: values,
     onSuccess: () => router.push("/"),
@@ -28,7 +29,7 @@ export default () => {
       <section className="hero">
         <div className="hero-body">
           <div className="container">
-            <h1 className="title">Sign Up</h1>
+            <h1 className="title">Sign In</h1>
             <SignForm
               handleSubmit={handleSubmit}
               handleChange={handleChange}
