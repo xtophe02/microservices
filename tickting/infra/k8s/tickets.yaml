@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tickets-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tickets
+  template:
+    metadata:
+      labels:
+        app: tickets
+    spec:
+      containers:
+        - name: tickets
+          # imagePullPolicy: Never
+          # image: us.gcr.io/ticketing-dev/auth
+          image: xtophe02/tickets
+          env:
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tickets-srv
+spec:
+  # type: NodePort
+  selector:
+    app: tickets
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+      name: tickets
+      # nodePort: 31515

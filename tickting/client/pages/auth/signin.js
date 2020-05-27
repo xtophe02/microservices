@@ -6,7 +6,6 @@ import SignForm from "../../components/SignForm";
 
 export default () => {
   const router = useRouter();
-  console.log(router);
   const [values, setValues] = React.useState({
     email: "",
     password: "",

@@ -3,12 +3,6 @@ import "express-async-errors";
 
 import cookieSession from "cookie-session";
 
-import {
-  currentUserRouter,
-  signinRouter,
-  signoutRouter,
-  signupRouter,
-} from "./routes";
 import { errorHandler, NotFoundError } from "@cmtickets/common";
 
 const app = express();
@@ -21,11 +15,6 @@ app.use(
     secure: process.env.NODE_ENV !== "test",
   })
 );
-
-app.use(currentUserRouter);
-app.use(signupRouter);
-app.use(signinRouter);
-app.use(signoutRouter);
 
 app.all("*", async () => {
   throw new NotFoundError();
