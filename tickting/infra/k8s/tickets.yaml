@@ -18,6 +18,8 @@ spec:
           # image: us.gcr.io/ticketing-dev/auth
           image: xtophe02/tickets
           env:
+            - name: MONGO_URI
+              value: "mongodb://tickets-mongo-srv:27017/tickets"
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:
