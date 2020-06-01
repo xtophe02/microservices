@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tickets-dep
+  name: ticket-dep
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: tickets
+      app: ticket
   template:
     metadata:
       labels:
-        app: tickets
+        app: ticket
     spec:
       containers:
-        - name: tickets
+        - name: ticket
           # imagePullPolicy: Never
           # image: us.gcr.io/ticketing-dev/auth
-          image: xtophe02/tickets
+          image: xtophe02/ticket
           env:
             - name: MONGO_URI
-              value: "mongodb://tickets-mongo-srv:27017/tickets"
+              value: "mongodb://ticket-mongo-srv:27017/ticket"
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:
@@ -29,14 +29,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: tickets-srv
+  name: ticket-srv
 spec:
   # type: NodePort
   selector:
-    app: tickets
+    app: ticket
   ports:
     - port: 3000
       targetPort: 3000
       protocol: TCP
-      name: tickets
+      name: ticket
       # nodePort: 31515

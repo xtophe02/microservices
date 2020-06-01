@@ -1,12 +1,17 @@
 import express, { Request, Response } from "express";
-import { validateRequest, requireAuth } from "@cmtickets/common";
+import {
+  validateRequest,
+  requireAuth,
+  NotFoundError,
+  NotAuthorizedError,
+} from "@cmtickets/common";
 import { body } from "express-validator";
 import { Ticket } from "../models/ticket";
 
 const router = express.Router();
 
-router.post(
-  "/api/tickets",
+router.put(
+  "/api/tickets/:id",
   requireAuth,
   [
     body("title").not().isEmpty().withMessage("title is required"),
@@ -16,11 +21,19 @@ router.post(
   ],
   validateRequest,
   async (req: Request, res: Response) => {
+    const ticket = await Ticket.findById(req.params.id);
     const { title, price } = req.body;
-    const ticket = Ticket.build({ title, price, userId: req.currentUser!.id });
+    if (!ticket) {
+      throw new NotFoundError();
+    }
+
+    if (req.currentUser!.id !== ticket.userId) {
+      throw new NotAuthorizedError();
+    }
+    ticket.set({ title, price });
     await ticket.save();
-    res.status(201).send(ticket);
+    res.status(200).send(ticket);
   }
 );
 
-export { router as createTicketRouter };
+export { router as updateTicketRouter };

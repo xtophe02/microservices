@@ -27,7 +27,7 @@ build:
         manual:
           - src: "**/*.js"
             dest: .
-    - image: xtophe02/tickets
+    - image: xtophe02/ticket
       context: tickets
       docker:
         dockerfile: Dockerfile

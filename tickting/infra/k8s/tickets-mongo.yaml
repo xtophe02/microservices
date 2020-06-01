@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tickets-mongo-dep
+  name: ticket-mongo-dep
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: tickets-mongo
+      app: ticket-mongo
   template:
     metadata:
       labels:
-        app: tickets-mongo
+        app: ticket-mongo
     spec:
       containers:
-        - name: tickets-mongo
+        - name: ticket-mongo
           # imagePullPolicy: Never
           # image: us.gcr.io/ticketing-dev/auth-mongo
           image: mongo
@@ -23,14 +23,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: tickets-mongo-srv
+  name: ticket-mongo-srv
 spec:
   # type: NodePort
   selector:
-    app: tickets-mongo
+    app: ticket-mongo
   ports:
     - port: 27017
       targetPort: 27017
       protocol: TCP
-      name: db-tickets
+      name: db-ticket
       # nodePort: 31515

@@ -4,7 +4,11 @@ import "express-async-errors";
 import cookieSession from "cookie-session";
 
 import { errorHandler, NotFoundError, currentUser } from "@cmtickets/common";
-import { createTicketRouter } from "./routes";
+import {
+  createTicketRouter,
+  showTicketRouter,
+  updateTicketRouter,
+} from "./routes";
 
 const app = express();
 app.set("trust proxy", true); //behind nginx
@@ -18,6 +22,8 @@ app.use(
 );
 app.use(currentUser);
 app.use(createTicketRouter);
+app.use(showTicketRouter);
+app.use(updateTicketRouter);
 app.all("*", async () => {
   throw new NotFoundError();
 });
