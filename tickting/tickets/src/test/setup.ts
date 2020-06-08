@@ -22,8 +22,9 @@ beforeAll(async () => {
     useUnifiedTopology: true,
   });
 });
-
+jest.mock("../nats-wrapper");
 beforeEach(async () => {
+  jest.clearAllMocks();
   const collections = await mongoose.connection.db.collections();
 
   for (let collection of collections) {
