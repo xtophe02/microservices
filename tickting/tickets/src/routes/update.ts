@@ -4,6 +4,7 @@ import {
   requireAuth,
   NotFoundError,
   NotAuthorizedError,
+  BadRequestError,
 } from "@cmtickets/common";
 import { body } from "express-validator";
 import { Ticket } from "../models/ticket";
@@ -25,10 +26,14 @@ router.put(
   async (req: Request, res: Response) => {
     const ticket = await Ticket.findById(req.params.id);
     const { title, price } = req.body;
+
     if (!ticket) {
       throw new NotFoundError();
     }
 
+    if (ticket.orderId) {
+      throw new BadRequestError("Cannot edit a reserved ticket");
+    }
     if (req.currentUser!.id !== ticket.userId) {
       throw new NotAuthorizedError();
     }
@@ -39,6 +44,7 @@ router.put(
       title: ticket.title,
       price: ticket.price,
       userId: ticket.userId,
+      version: ticket.version,
     });
     res.status(200).send(ticket);
   }
