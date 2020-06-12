@@ -1,6 +1,6 @@
 import { OrderCancelledListener } from "../order-cancelled-listener";
 import { natsWrapper } from "../../../nats-wrapper";
-import { OrderCreatedEvent, OrderStatus } from "@cmtickets/common";
+import { OrderCancelledEvent, OrderStatus } from "@cmtickets/common";
 import mongoose from "mongoose";
 import { Message } from "node-nats-streaming";
 import { Ticket } from "../../../models/ticket";
@@ -16,13 +16,11 @@ const setup = async () => {
   ticket.set({ orderId });
   await ticket.save();
 
-  const data: OrderCreatedEvent["data"] = {
+  const data: OrderCancelledEvent["data"] = {
     version: 0,
     id: orderId,
-    ticket: { id: ticket.id, price: ticket.price },
+    ticket: { id: ticket.id },
     status: OrderStatus.Cancelled,
-    userId: ticket.userId,
-    expiresAt: new Date().toISOString(),
   };
   //@ts-ignore
   const msg: Message = {

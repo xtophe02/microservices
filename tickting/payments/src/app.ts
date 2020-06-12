@@ -4,6 +4,7 @@ import "express-async-errors";
 import cookieSession from "cookie-session";
 
 import { errorHandler, NotFoundError, currentUser } from "@cmtickets/common";
+import { createPaymentRouter } from "./routes/new";
 
 const app = express();
 app.set("trust proxy", true); //behind nginx
@@ -16,6 +17,8 @@ app.use(
   })
 );
 app.use(currentUser);
+
+app.use(createPaymentRouter);
 
 app.all("*", async () => {
   throw new NotFoundError();
