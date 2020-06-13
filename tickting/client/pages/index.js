@@ -14,19 +14,46 @@ const sign = () => (
   </>
 );
 
-const Index = ({ currentUser }) => {
+const Index = ({ currentUser, tickets }) => {
+  const ticketList = tickets.map((ticket) => (
+    <Link
+      href="/tickets/[ticketId]"
+      as={`/tickets/${ticket.id}`}
+      key={ticket.id}
+    >
+      <tr>
+        <td>{ticket.title}</td>
+        <td>{ticket.price}</td>
+      </tr>
+    </Link>
+  ));
   return (
-    <section className="section">
-      <div className="container">
-        <h1 className="title">Hello World</h1>
-        <p className="subtitle">
-          {currentUser ? `Welcome ${currentUser.email}!` : sign()}
-        </p>
-      </div>
-    </section>
+    <>
+      <h1 className="title">Tickets</h1>
+      <p className="subtitle">
+        {currentUser ? `Welcome ${currentUser.email}!` : sign()}
+      </p>
+
+      {tickets.length !== 0 ? (
+        <table className="table is-striped is-hoverable is-fullwidth">
+          <thead>
+            <tr>
+              <th>Title</th>
+
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>{ticketList}</tbody>
+        </table>
+      ) : (
+        <p>not tickets found</p>
+      )}
+    </>
   );
 };
-// Index.getInitialProps = async (context) => {
+Index.getInitialProps = async (context, client) => {
+  const { data } = await client.get("/api/tickets");
 
-// };
+  return { tickets: data };
+};
 export default Index;
