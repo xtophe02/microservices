@@ -44,7 +44,7 @@ const TicketShow = ({ ticket }) => {
               <p className="control">
                 <a
                   className="button is-primary is-outlined"
-                  onClick={doRequest}
+                  onClick={() => doRequest()}
                 >
                   Purchase
                 </a>

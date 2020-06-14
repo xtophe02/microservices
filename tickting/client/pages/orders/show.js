@@ -6,7 +6,9 @@ const Orders = ({ orders }) => {
     <div>
       <h1>Orders</h1>
       {orders.map((order) => (
-        <p>{msLeft(order.expiresAt)}</p>
+        <p key={order.id}>
+          {order.ticket.title} - {order.status} - {msLeft(order.expiresAt)}
+        </p>
       ))}
     </div>
   );
