@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 const Orders = ({ orders }) => {
   const msLeft = (time) => new Date(time) - new Date();
@@ -7,7 +8,11 @@ const Orders = ({ orders }) => {
       <h1>Orders</h1>
       {orders.map((order) => (
         <p key={order.id}>
-          {order.ticket.title} - {order.status} - {msLeft(order.expiresAt)}
+          <Link href="/orders/[orderId]" as={`/orders/${order.id}`}>
+            <a>
+              {order.ticket.title} - {order.status} - {msLeft(order.expiresAt)}
+            </a>
+          </Link>
         </p>
       ))}
     </div>

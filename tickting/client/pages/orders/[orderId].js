@@ -27,7 +27,9 @@ const OrderShow = ({ order, currentUser }) => {
   }, [order]);
   let minutes = Math.floor(time / 60);
   let seconds = time - minutes * 60;
-
+  if (order.status === "complete") {
+    return <p>Purchase completed</p>;
+  }
   return (
     <div>
       <h1>Order Show</h1>
