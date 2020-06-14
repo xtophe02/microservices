@@ -5,8 +5,12 @@ import buildClient from "../api/build-client";
 function MyApp({ Component, pageProps, currentUser }) {
   return (
     <>
-      <Navbar currentUser={currentUser} />{" "}
-      <Component {...pageProps} currentUser={currentUser} />
+      <Navbar currentUser={currentUser} />
+      <section className="section">
+        <div className="container">
+          <Component {...pageProps} currentUser={currentUser} />
+        </div>{" "}
+      </section>
     </>
   );
 }
@@ -18,13 +22,16 @@ function MyApp({ Component, pageProps, currentUser }) {
 //
 MyApp.getInitialProps = async (appContext) => {
   // calls page's `getInitialProps` and fills `appProps.pageProps`
-  const { data } = await buildClient(appContext.ctx).get(
-    "/api/users/currentuser"
-  );
+  const client = buildClient(appContext.ctx);
+  const { data } = await client.get("/api/users/currentuser");
 
   let pageProps = {};
   if (appContext.Component.getInitialProps) {
-    pageProps = await appContext.Component.getInitialProps(appContext.ctx);
+    pageProps = await appContext.Component.getInitialProps(
+      appContext.ctx,
+      client,
+      data.currentUser
+    );
   }
 
   return { pageProps, ...data };
